@@ -1,13 +1,13 @@
-package com.tianmaying.crawler.impl;
+package com.cesec.crawler.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.tianmaying.crawler.Crawler;
-import com.tianmaying.crawler.HtmlParser;
-import com.tianmaying.crawler.model.Song;
-import com.tianmaying.crawler.model.WebPage;
+import com.cesec.crawler.Crawler;
+import com.cesec.crawler.HtmlParser;
+import com.cesec.crawler.model.Song;
+import com.cesec.crawler.model.WebPage;
 
 public class BasicCrawler implements Crawler {
     

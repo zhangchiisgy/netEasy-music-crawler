@@ -1,4 +1,4 @@
-package com.tianmaying.crawler;
+package com.cesec.crawler;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -23,8 +23,8 @@ import org.jsoup.select.Elements;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPath;
 import com.google.common.collect.ImmutableMap;
-import com.tianmaying.crawler.model.WebPage;
-import com.tianmaying.crawler.model.WebPage.PageType;
+import com.cesec.crawler.model.WebPage;
+import com.cesec.crawler.model.WebPage.PageType;
 
 public class HtmlParser {
     

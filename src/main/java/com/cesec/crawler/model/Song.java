@@ -1,4 +1,4 @@
-package com.tianmaying.crawler.model;
+package com.cesec.crawler.model;
 
 
 public class Song {

@@ -1,9 +1,9 @@
-package com.tianmaying.crawler;
+package com.cesec.crawler;
 
 import java.util.List;
 
-import com.tianmaying.crawler.model.Song;
-import com.tianmaying.crawler.model.WebPage;
+import com.cesec.crawler.model.Song;
+import com.cesec.crawler.model.WebPage;
 
 public interface Crawler {
     
