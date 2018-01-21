@@ -1,9 +1,11 @@
 package com.cesec.crawler;
 
-import java.util.List;
+
 
 import com.cesec.crawler.model.Song;
 import com.cesec.crawler.model.WebPage;
+
+import java.util.List;
 
 public interface Crawler {
     

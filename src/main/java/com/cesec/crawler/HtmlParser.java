@@ -1,30 +1,25 @@
 package com.cesec.crawler;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONPath;
+import com.cesec.crawler.model.WebPage;
+import com.google.common.collect.ImmutableMap;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONPath;
-import com.google.common.collect.ImmutableMap;
-import com.cesec.crawler.model.WebPage;
-import com.cesec.crawler.model.WebPage.PageType;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HtmlParser {
     
@@ -35,20 +30,12 @@ public class HtmlParser {
     public List<WebPage> parsePlaylists(String url) {
         Document document = Jsoup.parse(HTML_FETCHER.fetch(url));
         Elements playlists = document.select(".tit.f-thide.s-fc0");
-        return playlists.stream().map(e -> new WebPage(BASE_URL + e.attr("href"), PageType.playlist)).collect(Collectors.toList());
+        return playlists.stream().map(e -> new WebPage(BASE_URL + e.attr("href"), WebPage.PageType.playlist)).collect(Collectors.toList());
     }
     
     public List<WebPage> parsePlaylist(String url) {
-        Document document = Jsoup.parse(HTML_FETCHER.fetch(url));
-        Elements playlists = document.select("ul.f-hide");
-        Iterator it =  playlists.iterator();
-        Element element = (Element)it.next();
-        int size = element.childNodeSize();
-        List<WebPage> playLists = new ArrayList<>();
-        for(int i = 0;i<element.childNodeSize();i++){
-            playLists.add(new WebPage(BASE_URL+element.child(i).child(0).attr("href"),PageType.song,element.child(i).child(0).text()));
-        }
-        return playLists;
+        Elements songs = Jsoup.parse(HTML_FETCHER.fetch(url)).select("ul.f-hide li a");
+        return songs.stream().map(e -> new WebPage(BASE_URL + e.attr("href"), WebPage.PageType.song, e.html())).collect(Collectors.toList());
     }
     
     public Long parseSong(String url) {
@@ -95,12 +82,12 @@ public class HtmlParser {
     
     public static <T> void main(String[] args) throws Exception {
         HtmlParser htmlParser = new HtmlParser();
-        /*htmlParser.parsePlaylists("http://music.163.com/discover/playlist/?order=hot&cat=%E5%85%A8%E9%83%A8&limit=35&offset=0")
+        htmlParser.parsePlaylists("http://music.163.com/discover/playlist/?order=hot&cat=%E5%85%A8%E9%83%A8&limit=35&offset=0")
         .forEach(playlist -> System.out.println(playlist));
-        System.out.println("=====================");*/
+        System.out.println("=====================");
         htmlParser.parsePlaylist("http://music.163.com/playlist?id=454016843").forEach(song -> System.out.println(song));
-        /*System.out.println("=====================");
-        System.out.println(htmlParser.parseSong("http://music.163.com/song?id=29999506"));*/
+        System.out.println("=====================");
+        System.out.println(htmlParser.parseSong("http://music.163.com/song?id=29999506"));
     }
     
     
